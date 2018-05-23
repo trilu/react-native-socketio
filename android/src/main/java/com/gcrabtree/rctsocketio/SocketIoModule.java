@@ -11,6 +11,7 @@ import com.facebook.react.bridge.Arguments;
 import com.facebook.react.bridge.ReactApplicationContext;
 import com.facebook.react.bridge.ReactContextBaseJavaModule;
 import com.facebook.react.bridge.ReactMethod;
+import com.facebook.react.bridge.ReadableArray;
 import com.facebook.react.bridge.ReadableMap;
 import com.facebook.react.bridge.ReadableNativeMap;
 import com.facebook.react.bridge.WritableArray;
@@ -65,10 +66,12 @@ public class SocketIoModule extends ReactContextBaseJavaModule {
      * @param items The data to pass through the SocketIo engine to the server endpoint.
      */
     @ReactMethod
-    public void emit(String event, ReadableMap items) {
-        HashMap<String, Object> map = SocketIoReadableNativeMap.toHashMap((ReadableNativeMap) items);
+    public void emit(String event, ReadableArray items) {
+        Object[] args = items.toArrayList().toArray();
+        //HashMap<String, Object> map = SocketIoReadableNativeMap.toHashMap((ReadableNativeMap) items);
         if (mSocket != null) {
-            mSocket.emit(event, new JSONObject(map));
+            //mSocket.emit(event, new JSONObject(map));
+            mSocket.emit(event, args);
         }
         else {
             Log.e(TAG, "Cannot execute emit. mSocket is null. Initialize socket first!!!");
